@@ -4,24 +4,39 @@ namespace Ships
 {
     public class ShipInstaller : MonoBehaviour
     {
+        [SerializeField] private bool useAI;
         [SerializeField] private bool useKeyboard;
         [SerializeField] private Joystick joystick;
         [SerializeField] private Ship ship;
         
         private void Awake()
         {
-            ship.Configure(GetInput());
+            ship.Configure(GetInput(), GetCheckLimitsStrategy());
+        }
+
+        private ICheckLimits GetCheckLimitsStrategy()
+        {
+            if (useAI)
+            {
+                return new InitialPositionCheckLimits(ship.transform, 2f);
+            }
+            return new ViewportCheckLimits(Camera.main, ship.transform);
         }
 
         private IInput GetInput()
         {
-            if (useKeyboard)
+            if (useAI)
             {
-                Destroy(joystick.gameObject);
-                return new KeyboardInputAdapter();
+                return new AIInputAdapter(ship);
             }
             
-            return new JoystickInputAdapter(joystick);
+            if (!useKeyboard)
+            {
+                return new JoystickInputAdapter(joystick);
+            }
+        
+            Destroy(joystick.gameObject);
+            return new KeyboardInputAdapter();
         }
     }
 }
