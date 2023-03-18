@@ -640,6 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66820af0219947a19a741500f2d29543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useKeyboard: 1
   joystick: {fileID: 2024838332}
   ship: {fileID: 49592346}
 --- !u!4 &2068099607
