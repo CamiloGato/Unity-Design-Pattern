@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Ships
+namespace Ships.CheckLimits
 {
     class ViewportCheckLimits : ICheckLimits
     {

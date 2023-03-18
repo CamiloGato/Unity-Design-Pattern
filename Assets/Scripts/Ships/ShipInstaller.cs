@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Input;
+using Ships.CheckLimits;
+using UnityEngine;
 
 namespace Ships
 {
@@ -7,6 +9,7 @@ namespace Ships
         [SerializeField] private bool useAI;
         [SerializeField] private bool useKeyboard;
         [SerializeField] private Joystick joystick;
+        [SerializeField] private JoyButton fireButton;
         [SerializeField] private Ship ship;
         
         private void Awake()
@@ -32,10 +35,11 @@ namespace Ships
             
             if (!useKeyboard)
             {
-                return new JoystickInputAdapter(joystick);
+                return new JoystickInputAdapter(joystick,fireButton);
             }
-        
+            
             Destroy(joystick.gameObject);
+            Destroy(fireButton.gameObject);
             return new KeyboardInputAdapter();
         }
     }
