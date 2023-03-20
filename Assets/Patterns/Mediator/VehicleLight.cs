@@ -4,7 +4,13 @@ namespace Patterns.Mediator
 {
     public class VehicleLight : MonoBehaviour
     {
-        [SerializeField] private Light light;
+        [SerializeField] private new Light light;
+        private IVehicle _vehicle;
+
+        public void Configure(IVehicle vehicle)
+        {
+            _vehicle = vehicle;
+        }
         
         public void TurnOn()
         {

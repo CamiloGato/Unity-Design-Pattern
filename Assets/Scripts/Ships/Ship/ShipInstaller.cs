@@ -2,7 +2,7 @@
 using Ships.CheckLimits;
 using UnityEngine;
 
-namespace Ships
+namespace Ships.Ship
 {
     public class ShipInstaller : MonoBehaviour
     {
@@ -10,27 +10,27 @@ namespace Ships
         [SerializeField] private bool useKeyboard;
         [SerializeField] private Joystick joystick;
         [SerializeField] private JoyButton fireButton;
-        [SerializeField] private Ship ship;
+        [SerializeField] private ShipMediator shipMediator;
         
         private void Awake()
         {
-            ship.Configure(GetInput(), GetCheckLimitsStrategy());
+            shipMediator.Configure(GetInput(), GetCheckLimitsStrategy());
         }
 
         private ICheckLimits GetCheckLimitsStrategy()
         {
             if (useAI)
             {
-                return new InitialPositionCheckLimits(ship.transform, 2f);
+                return new InitialPositionCheckLimits(shipMediator.transform, 2f);
             }
-            return new ViewportCheckLimits(Camera.main, ship.transform);
+            return new ViewportCheckLimits(Camera.main, shipMediator.transform);
         }
 
         private IInput GetInput()
         {
             if (useAI)
             {
-                return new AIInputAdapter(ship);
+                return new AIInputAdapter(shipMediator);
             }
             
             if (!useKeyboard)
