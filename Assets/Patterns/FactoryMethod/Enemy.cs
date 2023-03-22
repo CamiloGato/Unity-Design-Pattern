@@ -4,9 +4,9 @@ namespace Patterns.FactoryMethod
 {
     public abstract class Enemy : MonoBehaviour
     {
-        [SerializeField] private string id;
+        [SerializeField] private EnemyId id;
         
-        public string Id => id;
+        public string Id => id.Value;
 
     }
 }

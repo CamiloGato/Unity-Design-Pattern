@@ -8,20 +8,26 @@ namespace Patterns.FactoryMethod
     public class EnemySpawner : MonoBehaviour
     {
         
-        [SerializeField] private string enemyId1;
-        [SerializeField] private string enemyId2;
+        [SerializeField] private EnemyId enemyId1;
+        [SerializeField] private EnemyId enemyId2;
+        [SerializeField] private EnemiesConfiguration enemyFactoryConfig;
         
-        [SerializeField] private EnemyFactory enemyFactory;
+        private EnemyFactory _enemyFactory;
+
+        private void Awake()
+        {
+            _enemyFactory = new EnemyFactory(Instantiate(enemyFactoryConfig));
+        }
 
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Q))
             {
-                enemyFactory.Create(enemyId1);
+                _enemyFactory.Create(enemyId1.Value);
             }
             if (UnityEngine.Input.GetKeyDown(KeyCode.W))
             {
-                enemyFactory.Create(enemyId2);
+                _enemyFactory.Create(enemyId2.Value);
             }
         }
     }

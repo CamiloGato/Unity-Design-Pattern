@@ -1,25 +1,26 @@
-﻿using System.Linq;
+﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Patterns.FactoryMethod
 {
-    public class EnemyFactory : MonoBehaviour
+    public class EnemyFactory
     {
-        [SerializeField] private Enemy[] enemyPrefabs;
-        
-        public void Create(string enemyId)
+        private readonly EnemiesConfiguration _enemiesConfiguration;
+
+        public EnemyFactory(EnemiesConfiguration enemiesConfiguration)
         {
-            Enemy enemyPrefab = GetEnemyPrefab(enemyId);
-            if (enemyPrefab.Equals(null))
-            {
-                return;
-            }
-            Enemy enemy = Instantiate(enemyPrefab, Random.onUnitSphere * 3f, Quaternion.identity);
+            _enemiesConfiguration = enemiesConfiguration;
         }
 
-        private Enemy GetEnemyPrefab(string enemyId)
+        public void Create(string enemyId)
         {
-            return enemyPrefabs.First(enemy => enemy.Id.Equals(enemyId));
+            Enemy enemyPrefab = _enemiesConfiguration.GetEnemyPrefab(enemyId);
+            if (enemyPrefab.Equals(null))
+            {
+                throw new Exception("Enemy prefab not found");
+            }
+            UnityEngine.Object.Instantiate(enemyPrefab, Random.onUnitSphere * 3f, Quaternion.identity);
         }
         
     }
